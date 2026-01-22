@@ -435,8 +435,9 @@
         }
 
         .services-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
             gap: 20px;
         }
 
@@ -539,6 +540,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            flex: 0 0 calc((100% - 40px) / 3);
         }
 
         .service-card p {
@@ -568,14 +570,14 @@
 
 
         @media (max-width: 992px) {
-            .services-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .service-card {
+                flex: 0 0 calc((100% - 20px) / 2);
             }
         }
 
         @media (max-width: 768px) {
-            .services-grid {
-                grid-template-columns: 1fr;
+            .service-card {
+                flex: 0 0 100%;
             }
         }
 
@@ -1022,17 +1024,52 @@
 
 
 
-        .awards-gallery img:hover {
-            transform: translateY(-5px);
+        .awards-marquee-track img:hover {
+            transform: scale(1.05);
+            z-index: 10;
+            cursor: pointer;
         }
 
         .awards-gallery-wrapper {
             position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
             margin-top: 40px;
+            width: 100%;
+            overflow: hidden;
+            padding: 20px 0;
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+
+        .awards-marquee-track {
+            display: flex;
+            gap: 20px;
+            width: max-content;
+            animation: scrollMarquee 40s linear infinite;
+        }
+
+        .awards-marquee-track:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes scrollMarquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .awards-marquee-track img {
+            height: 300px;
+            width: auto;
+            flex: 0 0 auto;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            clip-path: inset(2px 0 0 0);
+            /* Remove 2px from top to hide black border/line */
         }
 
         .scroll-btn {
@@ -1176,7 +1213,7 @@
         }
 
         #thought-leadership .awards-gallery-wrapper {
-            margin-top: 20px;
+            margin-top: 0px;
         }
 
         .thought-leadership-grid {
@@ -1184,9 +1221,9 @@
             flex-wrap: nowrap;
             justify-content: flex-start;
             gap: 20px;
-            margin-top: 20px;
+            margin-top: 0px;
             overflow-x: auto;
-            padding: 20px 10px;
+            padding: 10px 10px 20px 10px;
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: thin;
@@ -2041,10 +2078,11 @@
             <div class="services-grid">
                 <!-- Box 1 -->
                 <div class="service-card"
-                    onclick="openModal('Legal Advice', 'Advising on a range of transactions and negotiations, including finance and investment, commercial contracts, regulatory matters, including data privacy, outsourcing, cloud governance, market entry, and regulator approvals on new products or licenses, with a focus on the GCC countries and North Africa.', '')">
+                    onclick="openModal('Legal Advice', 'Legal advice on a range of matters including investment and financial services, data and cloud governance, artificial intelligence adoption, outsourcing, market entry and regulator engagements on new products and licenses with a focus on the GCC countries and North Africa.', '')">
                     <div class="service-icon"><i class="fas fa-balance-scale"></i></div>
                     <h3 class="service-title">Legal Advice</h3>
-                    <p>Expert guidance on transactions, commercial contracts, and regulatory compliance.</p>
+                    <p>Advising on finance and commercial transactions, contract negotiations, regulatory compliance and
+                        market entry.</p>
                     <button class="read-more-service">Read More <i class="fas fa-chevron-right"></i></button>
                 </div>
 
@@ -2086,13 +2124,7 @@
                 </div>
 
                 <!-- Box 6 -->
-                <div class="service-card"
-                    onclick="openModal('Keynote Speaking, Moderating & MC-ing', 'Motivational speaker for a range of events, audiences, and settings as a culturally fluent legal and sustainability influencer with compassion, humor, and charisma.<br><br>Moderator/MC (bi-lingual) for business, legal, cultural, and academic settings with a track record of engaging style and interviewing capabilities.', '')">
-                    <div class="service-icon"><i class="fas fa-microphone-alt"></i></div>
-                    <h3 class="service-title">Keynote Speaking, Moderating & MC-ing</h3>
-                    <p>Motivational speaking and bilingual moderation for global audiences.</p>
-                    <button class="read-more-service">Read More <i class="fas fa-chevron-right"></i></button>
-                </div>
+
             </div>
 
         </div>
@@ -2185,30 +2217,15 @@
         <div class="container">
             <h2 class="section-title" style="color: #ffffff;">Awards & Certifications</h2>
 
-            <div class="awards-gallery-wrapper">
-                <button class="scroll-btn left-btn" onclick="scrollGallery('awardsGrid', 'left')"><i
-                        class="fas fa-chevron-left"></i></button>
-                <div class="awards-grid" id="awardsGrid">
-                    <!-- Awards & Recognition -->
+            <div class="awards-rows-container">
+                <!-- Row 1 -->
+                <div class="awards-row"
+                    style="display: flex; justify-content: center; gap: 25px; margin-bottom: 25px; flex-wrap: wrap;">
                     <div class="award-card">
                         <div class="award-icon"><i class="fas fa-award"></i></div>
                         <h3 class="award-title">LexisNexis Women Legal Counsel of the Year 2025</h3>
                         <p>Honourable mention and shortlist recognition</p>
                     </div>
-                    <div class="award-card">
-                        <div class="award-icon"><i class="fas fa-trophy"></i></div>
-                        <h3 class="award-title">Top Arab Talent Program</h3>
-                        <p>Selected for leadership excellence in the GCC/MENA region by a leading international bank</p>
-                    </div>
-                    <div class="award-card">
-                        <div class="award-icon"><i class="fas fa-medal"></i></div>
-                        <h3 class="award-title">Women Leadership SOAR Program</h3>
-                        <p>Recognised for senior leadership, mentoring and impact by a leading international bank</p>
-                    </div>
-
-
-
-                    <!-- Professional Certifications -->
                     <div class="award-card">
                         <div class="award-icon"><i class="fas fa-shield-alt"></i></div>
                         <h3 class="award-title">Global Association of Risk Professionals</h3>
@@ -2221,34 +2238,51 @@
                         </p>
                     </div>
                 </div>
-                <button class="scroll-btn right-btn" onclick="scrollGallery('awardsGrid', 'right')"><i
-                        class="fas fa-chevron-right"></i></button>
-            </div>
 
-            <!-- Single Certification Section -->
-            <h3 class="award-group-title">Data Privacy & Governance</h3>
-            <div style="display: flex; justify-content: center; margin-top: 20px;">
-                <div class="award-card" style="flex: 0 0 320px;">
-                    <div class="award-icon"><i class="fas fa-user-lock"></i></div>
-                    <h3 class="award-title">International Association of Privacy Professionals</h3>
-                    <p>GDPR Data Privacy accreditation (CIPP/EU - IAPP 2023)</p>
+                <!-- Row 2 -->
+                <div class="awards-row"
+                    style="display: flex; justify-content: center; gap: 25px; margin-bottom: 25px; flex-wrap: wrap;">
+                    <div class="award-card">
+                        <div class="award-icon"><i class="fas fa-trophy"></i></div>
+                        <h3 class="award-title">Top Arab Talent Program</h3>
+                        <p>Selected for leadership excellence in the GCC/MENA region by a leading international bank</p>
+                    </div>
+                    <div class="award-card">
+                        <div class="award-icon"><i class="fas fa-medal"></i></div>
+                        <h3 class="award-title">Women Leadership SOAR Program</h3>
+                        <p>Recognised for senior leadership, mentoring and impact by a leading international bank</p>
+                    </div>
+                </div>
+
+                <!-- Row 3 -->
+                <div class="awards-row"
+                    style="display: flex; justify-content: center; gap: 25px; margin-bottom: 25px; flex-wrap: wrap;">
+                    <div class="award-card">
+                        <div class="award-icon"><i class="fas fa-user-lock"></i></div>
+                        <h3 class="award-title">International Association of Privacy Professionals</h3>
+                        <p>GDPR Data Privacy accreditation (CIPP/EU - IAPP 2023)</p>
+                    </div>
                 </div>
             </div>
             <!-- Awards Gallery -->
-            <div class="awards-gallery-wrapper">
-                <button class="scroll-btn left-btn" onclick="scrollGallery('awardsGallery', 'left')"><i
-                        class="fas fa-chevron-left"></i></button>
-                <div class="awards-gallery" id="awardsGallery">
+            <div class="awards-gallery-wrapper marquee-container">
+                <div class="awards-marquee-track">
                     <img src="./images/award_img_1.jpg" alt="Awards & Recognition 1">
-                    <img src="./images/award_img_2.jpg" alt="Awards & Recognition 2">
+                    <img src="./images/award_img_2_new.png" alt="Awards & Recognition 2">
                     <img src="./images/award_img_3.jpg" alt="Awards & Recognition 3">
                     <img src="./images/award_img_4.jpg" alt="Awards & Recognition 4">
-                    <img src="./images/award_img_5.jpg" alt="Awards & Recognition 5">
+                    <img src="./images/award_img_5_new.jpg" alt="Awards & Recognition 5">
+                    <img src="./images/award_img_6.jpg" alt="Awards & Recognition 6">
+                    <img src="./images/award_img_7.jpg" alt="Awards & Recognition 7">
+                    <!-- Duplicates for seamless marquee -->
+                    <img src="./images/award_img_1.jpg" alt="Awards & Recognition 1">
+                    <img src="./images/award_img_2_new.png" alt="Awards & Recognition 2">
+                    <img src="./images/award_img_3.jpg" alt="Awards & Recognition 3">
+                    <img src="./images/award_img_4.jpg" alt="Awards & Recognition 4">
+                    <img src="./images/award_img_5_new.jpg" alt="Awards & Recognition 5">
                     <img src="./images/award_img_6.jpg" alt="Awards & Recognition 6">
                     <img src="./images/award_img_7.jpg" alt="Awards & Recognition 7">
                 </div>
-                <button class="scroll-btn right-btn" onclick="scrollGallery('awardsGallery', 'right')"><i
-                        class="fas fa-chevron-right"></i></button>
             </div>
         </div>
     </section>
@@ -2401,6 +2435,12 @@
                         <p class="testimonial-author">Lawyer<br>International law firm</p>
                     </div>
                     <div class="testimonial-card">
+                        <h3 class="testimonial-category">Values Driven</h3>
+                        <p class="testimonial-text">"A person of immense courage, integrity and care for others who
+                            makes an impact professionally and personally."</p>
+                        <p class="testimonial-author">Risk Manager & Coach<br>Multinational company</p>
+                    </div>
+                    <div class="testimonial-card">
                         <h3 class="testimonial-category">Thought Leader</h3>
                         <p class="testimonial-text">"She is someone who can zoom out as a thought leader and also has a
                             creative gift as a storyteller. I have seen her use these skills across cultures and
@@ -2415,10 +2455,17 @@
                         <p class="testimonial-author">Senior Banker<br>Global Financial Institution</p>
                     </div>
                     <div class="testimonial-card">
-                        <h3 class="testimonial-category">Values Driven</h3>
-                        <p class="testimonial-text">"A person of immense courage, integrity and care for others who
-                            makes an impact professionally and personally."</p>
-                        <p class="testimonial-author">Risk Manager & Coach<br>Multinational company</p>
+                        <h3 class="testimonial-category">Cultural Intelligence</h3>
+                        <p class="testimonial-text">“Highly recommended for those seeking to navigate the MENA and GCC
+                            markets with cultural intelligence and confidence for inclusive workplaces and sustainable
+                            business growth.”</p>
+                        <p class="testimonial-author">Partner<br>International Law Firm</p>
+                    </div>
+                    <div class="testimonial-card">
+                        <h3 class="testimonial-category">Events & Moderating</h3>
+                        <p class="testimonial-text">“An exceptional speaker and moderator bringing rare depth to complex
+                            topics. She elevates every panel and keynote as an invaluable asset to any event.”</p>
+                        <p class="testimonial-author">Head of Marketing & BD</p>
                     </div>
 
                 </div>
